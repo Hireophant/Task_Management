@@ -1,6 +1,6 @@
 const Task = require("../models/task.model");
-const paginationHelper = require("../helper/pagination");
-const searchHelper = require("../helper/search");
+const paginationHelper = require("../../../helper/pagination");
+const searchHelper = require("../../../helper/search");
 
 // [GET] /api/v1/tasks
 module.exports.index = async (req, res) => {
