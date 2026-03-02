@@ -9,6 +9,7 @@ const taskSchema = new mongoose.Schema(
     timeFinish: Date,
     deleted: { type: Boolean, default: false },
     deletedAt: Date,
+    createdBy: String,
   },
   { timestamps: true },
 );
