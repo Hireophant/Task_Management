@@ -194,3 +194,20 @@ module.exports.detail = async (req, res) => {
     });
   }
 };
+
+// [GET] /api/v1/users/list
+module.exports.list = async (req, res) => {
+  try {
+    const users = await User.find({ deleted: false }).select("fullName email");
+    res.json({
+      code: 200,
+      message: "Lấy danh sách tài khoản thành công",
+      data: users,
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lấy danh sách tài khoản thất bại",
+    });
+  }
+};
