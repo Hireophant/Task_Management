@@ -117,3 +117,37 @@ module.exports.forgotPassword = async (req, res) => {
     });
   }
 };
+
+// [POST] /api/v1/users/password/otp
+module.exports.otpPassword = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const otp = req.body.otp;
+    const forgotPassword = await ForgotPassword.findOne({
+      email: email,
+      otp: otp,
+    });
+    if (!forgotPassword) {
+      res.json({
+        code: 400,
+        message: "Mã OTP không hợp lệ",
+      });
+      return;
+    }
+    const user = await User.findOne({ email: email, deleted: false });
+    const token = user.token;
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    });
+    res.json({
+      code: 200,
+      message: "Xác thực OTP thành công",
+      token: token,
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Xác thực OTP thất bại",
+    });
+  }
+};
